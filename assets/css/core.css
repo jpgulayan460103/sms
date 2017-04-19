@@ -1,0 +1,42 @@
+.row{
+	margin-top:1em;
+}
+
+.table-header{
+	text-align: center;
+}
+
+.help-block{
+	color: red;
+}
+
+.modal-body{
+	max-height: 45em;
+	overflow: auto;
+}
+
+#sms-modal .modal-body{
+	min-height: 20em;
+}
+
+.modal-title{
+	text-transform: uppercase;
+}
+
+#login-logo{
+	height: 10rem;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 1rem;
+}
+
+body#has-logo{
+    background: url("logo.jpg");
+    background-color: white;
+    /*background-size: 100% 100%;*/
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+
+}
+
