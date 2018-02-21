@@ -1,4 +1,4 @@
-# A Simple SMS Text Blast System
+# A Simple SMS text and Email Blast
 
 ## Installation
 
