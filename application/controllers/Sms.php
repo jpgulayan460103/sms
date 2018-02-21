@@ -296,21 +296,13 @@ class Sms extends CI_Controller {
 
 		$this->load->library('email');
 
-		$this->email->from('no-reply@rfid-ph.net', $from_name);
+		$this->email->from($this->db->get('email_settings')->row()->email_sender, $from_name);
 		$this->email->to($contact_data->email_address);
 
 		$this->email->subject($subject);
 		$this->email->message($message);
 
 		$this->email->send();
-
-
-		// sleep(1);
-		// $status_code = "";
-		// $status = sms_status($status_code);
-		// $status = "";
-		// $status_code = "";
-		// $status = "";
 		$status_code = 0;
 		$insert["contact_id"] = $this->input->post("recipient");
 		$insert["subject"] = $subject;
