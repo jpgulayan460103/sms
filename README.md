@@ -13,3 +13,23 @@
 
 * [CodeIgniter Web Framework](https://codeigniter.com/)
 * [Bootstrap 3](https://getbootstrap.com/)
+
+## Demo
+* [SMS and Email Blast](http://sms-and-email-blast.systemph.com/)
+
+For this demo I used [iTextMo SMS](https://www.itexmo.com/) as my SMS Gateway, in their [docs](https://www.itexmo.com/Developers/apidocs.php)<br><br>
+
+For this Demo, the data of the table sms_api is:<br>
+* api_code: MYAPICODE<br>
+* send_request: 'https://www.itexmo.com/php_api/api.php?apicode='<br>
+* get_info: 'https://www.itexmo.com/php_api/apicode_info.php?apicode='<br>
+
+## If you are using other SMS Gateway, you can change the following
+application/controllers/Sms.php - Line 238
+```
+$data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
+application/controllers/Sms.php - Line 239
+```
+```
+$data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+```

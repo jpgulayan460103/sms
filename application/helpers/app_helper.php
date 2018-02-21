@@ -142,16 +142,16 @@ if ( ! function_exists('admin_paging'))
 		}
 	}
 
-	function send_sms($mobile_number='',$message='')
+	function send_sms($mobile_number='',$message='',$apicode='',$send_request='')
 	{
 		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
-		$data["3"] =  "DE-JBTEC679067_718UI";
+		$data["3"] =  $apicode;
 
 		$data = http_build_query($data);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://www.itexmo.com/php_api/api.php",
+			CURLOPT_URL => $send_request,
 			CURLOPT_RETURNTRANSFER => TRUE,
 			CURLOPT_SSL_VERIFYPEER => FALSE,
 			CURLOPT_POSTFIELDS => $data,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 21, 2018 at 11:05 AM
+-- Generation Time: Feb 21, 2018 at 01:28 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -100,7 +100,8 @@ CREATE TABLE `sms` (
 CREATE TABLE `sms_api` (
   `id` int(11) NOT NULL,
   `api_code` text NOT NULL,
-  `sms_server` text NOT NULL
+  `send_request` text NOT NULL,
+  `get_info` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

@@ -73,8 +73,6 @@ class Sms extends CI_Controller {
 				$i = 0;
 				foreach ($contact_list as $contact_data) {
 					$this->db->where("id",$contact_data->id);
-					// $status_code = send_sms($contact_data->number,$message);
-					// $status = sms_status($status_code);
 					$status_code = "";
 					$status = "";
 
@@ -84,15 +82,12 @@ class Sms extends CI_Controller {
 					$insert["status_code"] = $status_code;
 					$insert["status"] = $status;
 					$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
-					// $this->db->insert('sms', $insert);
 				}
 			}else{
 				$i = 0;
 				foreach ($this->input->post("contact_id") as $contact_id) {
 					$this->db->where("id",$contact_id);
 					$contact_data = $this->db->get("contacts")->row();
-					// $status_code = send_sms($contact_data->number,$message);
-					// $status = sms_status($status_code);
 					$data["messages"][] = $contact_id;
 					$status_code = "";
 					$status = "";
@@ -101,7 +96,6 @@ class Sms extends CI_Controller {
 					$insert["status_code"] = $status_code;
 					$insert["status"] = $status;
 					$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
-					// $this->db->insert('sms', $insert);
 				}
 			}
 
@@ -119,8 +113,6 @@ class Sms extends CI_Controller {
 			$this->form_validation->set_rules('contact_id[]', 'Recipient', 'required|trim|htmlspecialchars');
 
 		}
-
-
 
 		if ($this->form_validation->run() == FALSE){
 			$data["is_valid"] = FALSE;
@@ -140,8 +132,6 @@ class Sms extends CI_Controller {
 				$i = 0;
 				foreach ($contact_list as $contact_data) {
 					$this->db->where("id",$contact_data->id);
-					// $status_code = send_sms($contact_data->number,$message);
-					// $status = sms_status($status_code);
 					$status_code = "";
 					$status = "";
 
@@ -153,15 +143,12 @@ class Sms extends CI_Controller {
 					$insert["status_code"] = $status_code;
 					$insert["status"] = $status;
 					$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
-					// $this->db->insert('sms', $insert);
 				}
 			}else{
 				$i = 0;
 				foreach ($this->input->post("contact_id") as $contact_id) {
 					$this->db->where("id",$contact_id);
 					$contact_data = $this->db->get("email_contacts")->row();
-					// $status_code = send_sms($contact_data->number,$message);
-					// $status = sms_status($status_code);
 					$data["messages"][] = $contact_id;
 					$status_code = "";
 					$status = "";
@@ -172,7 +159,6 @@ class Sms extends CI_Controller {
 					$insert["status_code"] = $status_code;
 					$insert["status"] = $status;
 					$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
-					// $this->db->insert('sms', $insert);
 				}
 			}
 
@@ -267,7 +253,8 @@ class Sms extends CI_Controller {
 		$message = $this->input->post("message");
 		$this->db->where("id",$this->input->post("recipient"));
 		$contact_data = $this->db->get("contacts")->row();
-		$status_code = send_sms($contact_data->number,$message);
+		$sms_api = $this->db->get('sms_api')->row();
+		$status_code = send_sms($contact_data->number,$message,$sms_api->api_code,$sms_api->send_request);
 		$status = sms_status($status_code);
 		
 		if($id==""){
@@ -324,7 +311,7 @@ class Sms extends CI_Controller {
 		$curl = curl_init();
 		$sms_api = $this->db->get('sms_api')->row();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $sms_api->sms_server.$sms_api->api_code,
+		  CURLOPT_URL => $sms_api->get_info.$sms_api->api_code,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_TIMEOUT => 30,
 		  CURLOPT_SSL_VERIFYPEER => FALSE,
@@ -341,7 +328,6 @@ class Sms extends CI_Controller {
 		$data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
 		$data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
 		echo json_encode($data);
-		// var_dump($response);
 		curl_close($curl);
 	}
 
