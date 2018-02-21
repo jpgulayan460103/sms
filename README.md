@@ -17,7 +17,7 @@
 ## Demo
 * [SMS and Email Blast](http://sms-and-email-blast.systemph.com/)
 
-For this demo I used [iTextMo SMS](https://www.itexmo.com/) as my SMS Gateway, in their [docs](https://www.itexmo.com/Developers/apidocs.php)<br><br>
+For this demo I used [iTextMo SMS](https://www.itexmo.com/) as my SMS Gateway<br>
 
 For this Demo, the data of the table sms_api is:<br>
 * api_code: MYAPICODE<br>
