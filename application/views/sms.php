@@ -269,9 +269,7 @@ $(document).on("submit","#send-sms",function(e) {
 		success: function(data) {
 			needToConfirm = false;
 			// console.log(data);
-
 			if(data.is_valid){
-
 				var count = 0;
 				var count_1 = 0;
 				$.each(data.messages, function(i, item) {
@@ -279,7 +277,7 @@ $(document).on("submit","#send-sms",function(e) {
 					// count_1++;
 					$.ajax({
 						type: "POST",
-						url: "<?php echo base_url("/sms/test"); ?>",
+						url: "<?php echo base_url("/sms/request_send_sms"); ?>",
 						// data: "count=0",
 						data: $("#send-sms").serialize()+"&recipient="+data.messages[i],
 						cache: false,
@@ -300,8 +298,6 @@ $(document).on("submit","#send-sms",function(e) {
 							}
 						}
 					})
-					// console.log(data.messages[i]);
-				    // $('#select_student').append('<option value="'+data.messages[i].id+'">'+data.messages[i].full_name+'</option>');
 				});
 			}else{
 				$(".help-block#recipient").html(data.contact_id);
@@ -338,7 +334,7 @@ $(document).on("submit","#send-email",function(e) {
 				$.each(data.messages, function(i, item) {
 					$.ajax({
 						type: "POST",
-						url: "<?php echo base_url("/sms/test_email"); ?>",
+						url: "<?php echo base_url("/sms/request_send_email"); ?>",
 						data: $("#send-email").serialize()+"&recipient="+data.messages[i],
 						cache: false,
 						success: function(new_response) {

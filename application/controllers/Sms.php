@@ -29,13 +29,6 @@ class Sms extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('', '');
-		$this->load->model("students_model");
-		$this->load->model("rfid_model");
-		$this->load->model("guardian_model");
-		$this->load->model("teachers_model");
-		$this->load->model("gate_logs_model");
-		$this->load->model("classes_model");
-		$this->load->model("sms_model");
 		
 		
 		$this->data["title"] = "Send SMS";
@@ -48,7 +41,6 @@ class Sms extends CI_Controller {
 	}
 	public function index()
 	{
-		// $this->data["navbar_scripts"] = "";
 		$this->data["modaljs_scripts"] = "";
 		$this->db->where("deleted","0");
 		$this->db->order_by('number', 'ASC');
@@ -64,11 +56,7 @@ class Sms extends CI_Controller {
 
 		if($this->input->post("send_option")!="all"){
 			$this->form_validation->set_rules('contact_id[]', 'Recipient', 'required|trim|htmlspecialchars');
-
 		}
-
-
-
 		if ($this->form_validation->run() == FALSE){
 			$data["is_valid"] = FALSE;
 			$data["contact_id"] = form_error("contact_id[]");
@@ -274,20 +262,13 @@ class Sms extends CI_Controller {
 	}
 
 
-	public function test($id='')
+	public function request_send_sms($id='')
 	{
-		// sleep(2);
 		$message = $this->input->post("message");
 		$this->db->where("id",$this->input->post("recipient"));
 		$contact_data = $this->db->get("contacts")->row();
 		$status_code = send_sms($contact_data->number,$message);
-		// $status_code = 0;
-		// sleep(1);
-		// $status_code = "";
 		$status = sms_status($status_code);
-		// $status = "";
-		// $status_code = "";
-		// $status = "";
 		
 		if($id==""){
 			$insert["contact_id"] = $this->input->post("recipient");
@@ -305,15 +286,13 @@ class Sms extends CI_Controller {
 		}
 	}
 
-	public function test_email($value='')
+	public function request_send_email($value='')
 	{
-		// sleep(2);
 		$message = $this->input->post("message");
 		$from_name = $this->input->post("from_name");
 		$subject = $this->input->post("subject");
 		$this->db->where("id",$this->input->post("recipient"));
 		$contact_data = $this->db->get("email_contacts")->row();
-		// $status_code = send_sms($contact_data->number,$message);
 
 		$this->load->library('email');
 
@@ -351,9 +330,9 @@ class Sms extends CI_Controller {
 	public function get_api_data($value='')
 	{
 		$curl = curl_init();
-
+		$sms_api = $this->db->get('sms_api')->row();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://www.itexmo.com/php_api/apicode_info.php?apicode=DE-JBTEC679067_718UI",
+		  CURLOPT_URL => $sms_api->sms_server.$sms_api->api_code,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_TIMEOUT => 30,
 		  CURLOPT_SSL_VERIFYPEER => FALSE,
