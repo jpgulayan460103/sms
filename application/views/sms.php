@@ -226,6 +226,22 @@ textarea { resize:vertical; }
 
 
 					</form>
+					<form action="sms/setUrl" method="post" class="form-horizontal" id="send-url-form">
+						<div class="form-group">
+						  <label class="col-sm-2" for="send_request">Send Request:</label>
+						  <div class="col-sm-10">
+						  	<input type="text" name="send_request" class="form-control" placeholder="" value="<?= $send_request->send_request ?>" required>
+						  <p class="help-block" id="send_request"></p>
+						  </div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2" for="recipient"></label>
+							<div class="col-sm-10">
+								<button class="btn btn-primary" type="submit" form="send-url-form">Add Contact</button>
+							</div>
+						</div>
+					</form>
 
 					</div>
 				</div>

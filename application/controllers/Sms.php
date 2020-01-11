@@ -46,6 +46,7 @@ class Sms extends CI_Controller {
 		$this->db->order_by('number', 'ASC');
 		$this->data["contact_list"] = $this->db->get("contacts")->result();
 		$this->data["email_contact_list"] = $this->db->get("email_contacts")->result();
+		$this->data["send_request"] = $this->db->get("sms_api")->row();
 		
 		$this->load->view('sms',$this->data);
 	}
@@ -190,6 +191,17 @@ class Sms extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function setUrl($value='')
+	{
+		$update = array(
+			'send_request' => $this->input->post("send_request"),
+		);
+		$this->db->where("id",1);
+		$this->db->update("sms_api",$update);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
+		die();
+	}
+
 	public function resend($value='')
 	{
 		$this->db->where("status_code","4");
@@ -271,6 +283,7 @@ class Sms extends CI_Controller {
 			$this->db->where("id",$id);
 			$this->db->update("sms",$update);
 		}
+		echo $status_code;
 	}
 
 	public function request_send_email($value='')
@@ -325,8 +338,9 @@ class Sms extends CI_Controller {
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
 		$response = json_decode($response,true);
-		$data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
-		$data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+		// $data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
+		// $data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+		$data["ExpiresOn"] = $response["ok"];
 		echo json_encode($data);
 		curl_close($curl);
 	}
