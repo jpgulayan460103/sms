@@ -144,9 +144,9 @@ if ( ! function_exists('admin_paging'))
 
 	function send_sms($mobile_number='',$message='',$apicode='',$send_request='')
 	{
-		$data["1"] =  $mobile_number;
-		$data["2"] =  $message;
-		$data["3"] =  $apicode;
+		$data["number"] =  $mobile_number;
+		$data["message"] =  $message;
+		// $data["3"] =  $apicode;
 
 		$data = http_build_query($data);
 		$curl = curl_init();
