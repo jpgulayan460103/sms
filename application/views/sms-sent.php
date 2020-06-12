@@ -25,6 +25,7 @@ textarea { resize:vertical; }
 					<thead>
 						<tr>
 							<th>Message</th>
+							<th>Name</th>
 							<th>Recipient</th>
 							<th>Status</th>
 							<th>Date Time</th>

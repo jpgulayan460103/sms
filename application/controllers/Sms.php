@@ -226,6 +226,7 @@ class Sms extends CI_Controller {
 			echo '
 			<tr>
 				<td>'.$message_data->message.'</td>
+				<td>'.$contact_data->name.'</td>
 				<td>'.$contact_data->number.'</td>
 				<td>'.$message_data->status.'</td>
 				<td>'.date("m/d/Y h:i:s A",$message_data->date_time).'</td>
