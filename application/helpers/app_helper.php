@@ -80,74 +80,23 @@ if ( ! function_exists('admin_paging'))
 		# code...
 	}
 
-	function sms_status($code)
+	function sms_status($server_response)
 	{
-		switch ($code) {
-			case '1':
-				return "Invalid Number.";
-				# code...
-				break;
-			case '2':
-				return "Number not Supported.";
-				# code...
-				break;
-			case '3':
-				return "Invalid ApiCode.";
-				# code...
-				break;
-			case '4':
-				return "Maximum Message per day reached. This will be reset every 12MN.";
-				# code...
-				break;
-			case '5':
-				return "Maximum allowed characters for message reached.";
-				# code...
-				break;
-			case '6':
-				return "System OFFLINE.";
-				# code...
-				break;
-			case '7':
-				return "Expired ApiCode.";
-				# code...
-				break;
-			case '8':
-				return "iTexMo Error. Please try again later.";
-				# code...
-				break;
-			case '9':
-				return "Invalid Function Parameters.";
-				# code...
-				break;
-			case '10':
-				return "Recipient's number is blocked due to FLOODING, message was ignored.";
-				# code...
-				break;
-			case '11':
-				return "Recipient's number is blocked temporarily due to HARD sending (after 3 retries of sending and message still failed to send) and the message was ignored. Try again after an hour.";
-				# code...
-				break;
-			case '12':
-				return "Invalid request. You can't set message priorities on non corporate apicodes.";
-				# code...
-				break;
-			case '0':
-				return "Success! Message is now on queue and will be sent soon.";
-				# code...
-				break;
-			default:
-				return FALSE;
-				# code...
-				break;
+		if($server_response['status'] == "ok"){
+			return "Success! Message is now on queue and will be sent soon.";
+		}else{
+			return $server_response['errors'][0];
 		}
 	}
 
-	function send_sms($mobile_number='',$message='',$apicode='',$send_request='')
+	function send_sms($mobile_number='',$message='',$apicode='', $send_request='')
 	{
+		// if(ENVIRONMENT=='development'){
+		// 	return 0;
+		// }
 		$data["number"] =  $mobile_number;
 		$data["message"] =  $message;
-		// $data["3"] =  $apicode;
-
+		$data["apicode"] =  $apicode;
 		$data = http_build_query($data);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
@@ -157,7 +106,23 @@ if ( ! function_exists('admin_paging'))
 			CURLOPT_POSTFIELDS => $data,
 		));
 		$result = curl_exec($curl);
+		$statusCode = curl_getinfo($curl);
+		if($result == null){
+			return [
+				'status_code' => "error",
+				'errors' => [
+					"General Error"
+				]
+			];
+		}
+		$result = json_decode($result, true);
+		return $result;
 		curl_close($curl);
+		if($result['status']=="ok"){
+			$result['status_code'] = 0;
+		}else{
+			$result['status_code'] = 1;
+		}
 		return $result;
 	}
 

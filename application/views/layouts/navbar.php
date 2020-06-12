@@ -352,7 +352,6 @@ if($navbar_type=="admin"){
           <li><a href="'.base_url().'">Home</a></li>
           <li><a href="'.base_url("sms/sms_contacts").'">Contacts</a></li>
           <li><a href="'.base_url("sms/sms_sent").'">Sent Messages</a></li>
-          <li><a href="'.base_url("sms/email_sent").'">Sent Email Messages</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
         </ul>

@@ -30,13 +30,13 @@ textarea { resize:vertical; }
 						</div>
 
 							<div class="form-group">
-							  <label class="col-sm-3" for="recipient">Recipient's Name:</label>
+							  <label class="col-sm-3" for="recipient">Recipient's Number:</label>
 							  <div class="col-sm-9">
 							    <select class="ui fluid search dropdown" multiple="" name="contact_id[]">
-							    	<option value="">Select Name</option>
+							    	<option value="">Select Number</option>
 							    	<?php
 							    	foreach ($contact_list as $contact_data) {
-							    		echo '<option value="'.$contact_data->id.'">'.$contact_data->name.' - '.$contact_data->number.'</option>';
+							    		echo '<option value="'.$contact_data->id.'">'.$contact_data->number.' - '.$contact_data->name.'</option>';
 							    		// echo '<option value="'.$contact_data->id.'">'.$contact_data->name.' ['.$contact_data->number.']</option>';
 							    	}
 							    	?>

@@ -48,7 +48,10 @@ class Sms extends CI_Controller {
 		$this->data["email_contact_list"] = $this->db->get("email_contacts")->result();
 		$this->data["send_request"] = $this->db->get("sms_api")->row();
 		
-		$this->load->view('sms',$this->data);
+		$type = $this->input->get('type');
+		$this->data["type"] = $type;
+		$loadview = $type == "number" ? "sms-number" : "sms";
+		$this->load->view($loadview,$this->data);
 	}
 
 	public function send($value='')
@@ -266,24 +269,23 @@ class Sms extends CI_Controller {
 		$this->db->where("id",$this->input->post("recipient"));
 		$contact_data = $this->db->get("contacts")->row();
 		$sms_api = $this->db->get('sms_api')->row();
-		$status_code = send_sms($contact_data->number,$message,$sms_api->api_code,$sms_api->send_request);
+		$status_code = send_sms($contact_data->number,$message,$sms_api->api_code, $sms_api->send_request);
 		$status = sms_status($status_code);
-		
 		if($id==""){
 			$insert["contact_id"] = $this->input->post("recipient");
 			$insert["message"] = $message;
-			$insert["status_code"] = $status_code;
+			$insert["status_code"] = $status_code['status_code'];
 			$insert["status"] = $status;
 			$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
 			$this->db->insert('sms', $insert);
 		}else{
-			$update["status_code"] = $status_code;
+			$update["status_code"] = $status_code['status_code'];
 			$update["status"] = $status;
 			$insert["date_time"] = strtotime(date("m/d/Y h:i:s A"));
 			$this->db->where("id",$id);
 			$this->db->update("sms",$update);
 		}
-		echo $status_code;
+		echo $status_code['status_code'];
 	}
 
 	public function request_send_email($value='')
